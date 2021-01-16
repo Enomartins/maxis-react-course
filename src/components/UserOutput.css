@@ -1,0 +1,8 @@
+.content {
+    background-color:darkmagenta;
+    display: flex;
+    justify-content: space-around;
+    margin: 3em auto;
+    border: 2px solid blue;
+    max-width: 70%;
+}
