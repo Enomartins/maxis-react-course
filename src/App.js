@@ -1,29 +1,54 @@
-import React, { useState } from 'react'
+import React, { Component } from 'react'
 
 import './App.css';
-import UserOutput from './components/UserOutput'
-import UserInput from './components/UserInput'
+import Char from './components/char'
+import Validation from './components/validationComponent'
 
 
-const App = () => {
+class App extends Component {
 
-  const [data, setUserName] = useState({userName: 'Richard'}) 
+  state = {
+    userInput: ''
+  }
 
+  inputHandler = (event) =>{
+    this.setState({userInput: event.target.value})
+  }
 
-  const submitHandler = (e) => {
-    setUserName({userName: e.target.value})
+  deleteCharHandler = (index) => {
+    const text = this.state.userInput.split('')
+    text.splice(index, 1)
+    const updatedText = text.join('')
+    this.setState({userInput: updatedText})
   }
 
 
-    return (
-      <div>
-        <div className="App">
-      <UserInput changed= {submitHandler} name1={data.userName}/>
-      <UserOutput name1={data.userName} name2={'Michael'}/>
+    render () {
+      const charList = this.state.userInput.split('').map((ch, index) => {
+        return <Char 
+                  character={ch} 
+                  key={index}
+                  clicked={() => this.deleteCharHandler(index)}/>
+      })
+      return (
       
-    </div>
-      </div>
-    )
+        <div className="App">
+          <input 
+            type="text" 
+            value={this.state.userInput} 
+            onChange={this.inputHandler} /> 
+
+            <hr></hr>
+
+            <p>{this.state.userInput}</p>
+
+            <Validation inputLength={this.state.userInput.length} />
+
+            {charList}
+        
+        </div>
+      )
+    }
 
 }
 
